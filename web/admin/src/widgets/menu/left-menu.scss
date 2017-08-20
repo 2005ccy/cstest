@@ -1,0 +1,63 @@
+#menu-left-menu::-webkit-scrollbar {
+	width: 3px;
+	background-color: #F5F5F5;
+}
+
+#menu-left-menu::-webkit-scrollbar-thumb {
+	background-color: #F90;
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent);
+}
+
+#menu-left-menu::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	background-color: #F5F5F5;
+}
+
+#menu-left-menu {
+	width: 190px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: relative;
+	z-index: 4;
+	height: calc(100vh - 64px);
+
+	.ant-menu,
+	.ant-menu,
+	.ant-menu-submenu-active {
+		background: transparent;
+	}
+
+	.ant-menu-inline,
+	.ant-menu-vertical,
+	.ant-menu-inline .ant-menu-item,
+	.ant-menu-vertical .ant-menu-item {
+		border-right: none;
+	}
+
+	.ant-menu-inline>.ant-menu-item,
+	.ant-menu-inline>.ant-menu-submenu>.ant-menu-submenu-title,
+	.ant-menu-item-group-list>.ant-menu-item,
+	.ant-menu-item-group-list>.ant-menu-submenu>.ant-menu-submenu-title,
+	.ant-menu-vertical>.ant-menu-item,
+	.ant-menu-vertical>.ant-menu-submenu>.ant-menu-submenu-title,
+	.ant-menu-item>a {
+		font-size: 16px;
+		color: #fff;
+		font-weight: bold;
+	}
+
+	.ant-menu-item-active,
+	.ant-menu-submenu-active > .ant-menu-submenu-title,
+	.ant-menu-submenu-selected > .ant-menu-submenu-title,
+	.ant-menu-item-selected {
+		color: #FFFFFF;
+		opacity: 1;
+		background: rgba(255, 255, 255, 0.23) !important;
+	}
+
+	.ant-menu-inline .ant-menu-item-selected,
+	.ant-menu-inline .ant-menu-selected {
+		border-right: 4px solid #fff;
+	}
+
+}

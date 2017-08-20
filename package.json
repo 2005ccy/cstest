@@ -1,0 +1,38 @@
+{
+  "name": "bae-nodejs",
+  "version": "1.0.0",
+  "author": "bae",
+  "description": "The first bae nodejs app!",
+  "scripts": {
+    "start": "node --harmony server/root/server.js",
+    "start:root": "node --harmony server/root/server.js",
+    "start:mongo": "node --harmony server/mongo/server.js",
+    "start:mongo2": "node --harmony server/mongo/server2.js",
+    "debug:root": "babel server/root/src -w -d server/root/dist -s & devtool server/root/dist/server.js --watch --poll",
+    "debug:mongo": "cd server/mongo && babel src --watch -d dist & devtool dist/server.js --watch --poll",
+    "debug:web": "cd web/admin && npm start",
+    "debug": "npm run debug:root & npm run debug:mongo & npm run debug:web"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "bce-sdk-js": "^0.2.3",
+    "body-parser": "^1.17.0",
+    "compression": "^1.6.2",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.14.1",
+    "generic-pool": "^3.1.7",
+    "http-proxy-middleware": "^0.17.3",
+    "jsonwebtoken": "^7.3.0",
+    "lodash": "^4.17.4",
+    "log4js": "^1.1.0",
+    "mongodb": "^2.2.24",
+    "nools": "^0.4.4",
+    "passport": "^0.3.2",
+    "passport-http-bearer": "^1.0.1",
+    "svg-captcha": "^1.3.2"
+  },
+  "devDependencies": {
+    "babel-register": "^6.24.1",
+    "convert-source-map": "^1.5.0"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/route.js"],"names":["Route","props"],"mappings":";;AAAA;;;;;;;;;;;;IAEMA,K;;;AAEF,mBAAYC,KAAZ,EAAmB;AAAA;;AAAA,6GACTA,KADS;AAGlB","file":"route.js","sourcesContent":["import Event from './common/event.js';\n\nclass Route extends Event {\n\n    constructor(props) {\n        super(props);\n\n    }\n\n}"]}

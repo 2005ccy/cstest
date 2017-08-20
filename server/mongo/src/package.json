@@ -1,0 +1,23 @@
+{
+  "name": "bae-nodejs",
+  "version": "1.0.0",
+  "author": "bae",
+  "description": "The first bae nodejs app!",
+  "scripts": {
+    "start": "node --harmony server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.0",
+    "co": "^4.6.0",
+    "compression": "^1.6.2",
+    "express": "^4.14.1",
+    "generic-pool": "^3.1.7",
+    "jsonwebtoken": "^7.3.0",
+    "lodash": "^4.17.4",
+    "log4js": "^1.1.0",
+    "mongodb": "^2.2.24",
+    "nools": "^0.4.4",
+    "passport": "^0.3.2",
+    "passport-http-bearer": "^1.0.1"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/common/event-processor.js"],"names":["EventProcessor"],"mappings":";;;;AACA;IACMA,c;;AAEF;AACA,0BAAc;AAAA;AAAE,C","file":"event-processor.js","sourcesContent":["\n// 事件\nclass EventProcessor {\n\n    // 事件处理器构造方法\n    constructor() {}\n}"]}

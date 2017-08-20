@@ -1,0 +1,55 @@
+#account-registe {
+	.card {
+		margin-bottom: 20px;
+	}
+
+	.login-page .card {
+		padding: 10px 0 0;
+	}
+
+	.login-page > .content {
+		padding-top: 11vh;
+	}
+
+	.login-page .card .header {
+		padding-bottom: 0px;
+	}
+
+	.card .header {
+		padding: 0px 15px 0px;
+	}
+
+	.ant-form-item:nth-child(6) {
+		margin-bottom: 10px;
+	}
+
+	.inline {
+		display: inline-block;
+	}
+
+	.inline > span {
+		padding-right: 5px;
+	}
+
+	.icp-selector {
+		width: 60px;
+	}
+
+	.captcha-box {
+
+		svg {
+			margin-top: -14px;
+		}
+
+	}
+
+	.agreement-box {
+		margin-bottom: 15px;
+		
+		.ant-checkbox-wrapper {
+			height: 22px;
+		}
+
+	}
+
+}

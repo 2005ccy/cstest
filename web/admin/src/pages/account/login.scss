@@ -1,0 +1,16 @@
+#account-login {
+	.ant-form-item:last-child{
+		margin-bottom: 0px;
+	}
+	.ant-checkbox-wrapper {
+		cursor: pointer;
+		font-size: 12px;
+		display: inline-block;
+	}
+	.login-form-forgot {
+		float: right
+	}
+	.login-form-button {
+		width: 180px
+	}
+}

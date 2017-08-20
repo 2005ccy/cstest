@@ -1,0 +1,9 @@
+import './core.js';
+import './dom.js';
+import './request.js';
+import './i18n.js';
+import './localFiles.js';
+import './validator.js';
+import './lazyBase64Img.js';
+import './mongo.js';
+import './user.js';

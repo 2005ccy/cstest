@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="/images/work.ico">
+    <title>管理控制台</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <!--[if lt IE 9]>
+        <iframe src="/static/ie8.html" scrolling="no" frameborder="0" width="100%" height="100%" style="position:absolute;top:-10px;left:-10px;right:-10px;bottom:-10px;z-index:999;border:none"></iframe>
+    <![endif]-->
+    <script type="text/javascript" src="//cdn.bootcss.com/babel-polyfill/6.20.0/polyfill.min.js"></script>
+    <script type="text/javascript" src="/jsCache.js"></script>
+    <script type="text/javascript">
+    jsCache.domReady(function() {
+        // 设置缓存过期时间
+        jsCache.expires = 3650 * 24 * 60 * 60 * 1000;
+        // 依赖插件公共配置cacheMap
+        window.cacheMap = {
+                // ========================== javascript 脚本相关 ==============================
+                // react 压缩组件 （测试生产环境）50.9k
+                react: '//cdn.bootcss.com/react/15.2.1/react.min.js',
+                // react Dom 组件 1.1k
+                reactDom: '//cdn.bootcss.com/react/15.2.1/react-dom.min.js',
+                // react 路由组件 17.3k
+                reactRouter: '//cdn.bootcss.com/react-router/2.7.0/ReactRouter.min.js',
+                // 日文语言包 3k
+                ja: '/__locale__/ja.644a2247ebf593340466.js'
+            }
+            // 依赖插件配置cacheWebMap
+        window.cacheWebMap = {
+            // ========================== javascript 脚本相关 ==============================
+            // 系统公共部分 3k
+            shared: '/__web__/webshared.6968030b875441365d61.js',
+            //router-example 205k
+            'web.page': '/__web__/web.6968030b875441365d61.page.js',
+            //antdUi 315k
+            'antdJs': '//cdn.bootcss.com/antd/2.7.1/antd.min.js',
+            // antd 样式资源 55.9k
+            'antdCss': '//cdn.bootcss.com/antd/2.7.1/antd.min.css',
+            // jquery 资源 34.7k
+            'jquery': '//cdn.bootcss.com/jquery/2.2.4/jquery.min.js',
+            // 工具类 资源 28.8k
+            'lodash': '//cdn.bootcss.com/lodash.js/4.17.2/lodash.min.js',
+            // 时间类 资源 24.3
+            'moment': '//cdn.bootcss.com/moment.js/2.17.0/moment.min.js',
+            // 字体
+            'awesomeCss': '//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css'
+        }
+
+        // 依赖插件配置cacheMobileMap
+        window.cacheMobileMap = {
+            // ========================== javascript 脚本相关 ==============================
+            // 系统公共部分
+            shared: '/__mobile__/mobileshared.1d946dcb661d5a39e69a.js',
+            //router-example
+            'mobile.page': '/__mobile__/mobile.1d946dcb661d5a39e69a.page.js',
+            //antdUi
+            'antdMJs': '//unpkg.com/antd-mobile@0.9.4/dist/antd-mobile.min.js',
+            'antdMCss': '//unpkg.com/antd-mobile@0.9.4/dist/antd-mobile.min.css'
+        }
+
+        window.cacheSave = ['/__locale__/'];
+
+        window.csRoot = '/';
+
+        // 如果支持 localStorage 存储
+        if (typeof localStorage != 'undefined') {
+            // 默认shared不改变
+            var sharedChg = false;
+            //老的hash值
+            var oldHash;
+            var cacheObj = isMobile() ? window.cacheMobileMap : window.cacheWebMap;
+            // 遍历localStorage获取老的Hash值
+            for (var k in localStorage) {
+                // 获得 缓存插件url
+                var bn = k.replace('jsCache_', '');
+                // 如果k 包含 jsCache_和share
+                if (k.indexOf('jsCache_') > -1 && k.indexOf('shared') > -1) {
+                    //判断shared名是否改变
+                    if (bn !== cacheObj.shared) {
+                        sharedChg = true;
+                        oldHash = bn.match(/\.[^\.]+\./)[0];
+                    }
+                }
+            }
+
+            // 如果主版本变更，清空localStorage
+            if (sharedChg) {
+                try {
+                    localStorage.clear();
+                } catch (e) {}
+            }
+        }
+
+        // 加载系统共享组件
+        jsCache.load({
+            url: cacheMap.react
+        }, {
+            url: cacheWebMap.jquery
+        }, {
+            url: cacheWebMap.lodash
+        }, {
+            url: '/lib/largeLocalStorage.js'
+        }).then(function() {
+
+            try {
+                // Create a 125MB key-value store
+                window.csStorage = new LargeLocalStorage({
+                    size: 125 * 1024 * 1024,
+                    name: 'myDb'
+                });
+                // 存储初始化成功
+                csStorage.initialized.then(function(grantedCapacity) {
+                    // 则能存储本地文件
+                    _.canLocalFiles = true;
+                });
+            } catch (e) {}
+
+            var awe = cacheWebMap.awesomeCss.match(/^.*\//) && cacheWebMap.awesomeCss.match(/^.*\//)[0];
+
+            jsCache.load({
+                url: cacheMap.reactDom
+            }, {
+                url: cacheMap.reactRouter
+            }, {
+                url: cacheWebMap.moment
+            }, {
+                url: cacheWebMap.awesomeCss,
+                'dataChange': [{
+                    query: /\.\.\//gm,
+                    replace: awe && awe.replace('css/', '') || ''
+                }, {
+                    query: /url\((?=[0-9a-zA-Z])/gm,
+                    replace: 'url(' + awe + '/'
+                }]
+            }).then(function() {
+
+                // 资源比对Map
+                var urlMap = {};
+                // 最多加载次数
+                var maxLoad = 3;
+                // jsCache缓存map
+                var jsCacheMap = [];
+                // 加载资源方法
+                var dfdJsCacheLoad = function(url, dfd) {
+                    // 资源加载参数
+                    var param = {
+                        url: url
+                    };
+                    // 如果是加载样式资源
+                    if (url.indexOf('.css') > -1) {
+
+                        var reg = url.match(/^.*\//) && url.match(/^.*\//)[0];
+                        // 修改参数
+                        param['dataChange'] = [{
+                            query: /\.\//gm,
+                            replace: reg || ''
+                        }, {
+                            query: /url\((?=[0-9a-zA-Z])/gm,
+                            replace: 'url(' + reg + '/'
+                        }];
+                    }
+                    // 使用jsCache 加载资源
+                    jsCache.load(param).then(function() {
+                        dfd.resolve();
+                        urlMap[url] = true;
+                    });
+                    // 3秒未加载资源为资源加载失败
+                    setTimeout(function() {
+                        dfd.reject();
+                    }, 3000);
+                }
+
+                // 加载状态
+                var loadState;
+                // 加载函数
+                var dfdJsCache = function(action) {
+                    // 如果加载状态为 pending则退出该方法
+                    if (loadState && loadState.state() === 'pending') {
+                        return;
+                    }
+                    // 获取单次执行
+                    var ex = action || jsCacheMap.shift();
+                    // 如果资源不存在，返回
+                    if (!ex) {
+                        return;
+                    }
+                    // 设置加载状态为 pending
+                    loadState = $.Deferred();
+                    // 执行次数减一
+                    ex.count = ex.count - 1;
+                    // 如果执行次数，允许
+                    if (ex.count > -1) {
+                        // 执行资源加载
+                        dfdJsCacheLoad(ex.url, loadState);
+                        // 资源加载状态
+                        loadState.done(function() {
+                            try {
+                                // 资源加载成功
+                                ex.promise.resolve();
+                            } catch (e) {}
+                            // 递归执行
+                            dfdJsCache();
+                            // 加载失败
+                        }).fail(function() {
+                            // 执行错误，尝试重新加载
+                            dfdJsCache(ex);
+                        });
+                        // 执行次数已到，返回错误
+                    } else {
+                        try {
+                            // 资源加载失败
+                            ex.promise.reject();
+                        } catch (e) {}
+                        // 递归执行
+                        dfdJsCache();
+                    }
+                }
+
+                // 用jscache读取返回承若模式
+                window.csGetCache = function(url) {
+                    // 获取承诺对象
+                    var dfd = $.Deferred();
+                    // 如果已经加载过的资源
+                    if (urlMap[url]) {
+                        // 返回加载成功
+                        dfd.resolve();
+                    } else {
+                        // 放入缓存
+                        url && jsCacheMap.push({
+                            url: url,
+                            promise: dfd,
+                            count: maxLoad
+                        });
+                        // 页面资源加载完毕
+                        if (window.jsCacheLoanded) {
+                            // 执行方法
+                            dfdJsCache();
+                        }
+                    }
+                    // 返回承诺对象
+                    return dfd.promise();
+                }
+
+                // 替换未压缩的字符串
+                var query = 'head.appendChild(script)';
+                // 需替换的内容
+                var replace = 'csGetCache(script.src)';
+                // 替换压缩后的现有内容查询器
+                var queryMin = /[a-z].appendChild\(([a-z])\)/;
+                // 需替换的压缩后的内容
+                var replaceMin = 'csGetCache($1.src)';
+
+                // 不存在媒体选择器, 加载插件
+                if (!window.matchMedia) {
+                    jsCache.load({
+                        url: '/lib/media.match.js'
+                    }).then(function() {
+                        // 继续加载打包资源
+                        loadPage(query, replace, queryMin, replaceMin);
+                    });
+                } else {
+                    // 继续加载打包资源
+                    loadPage(query, replace, queryMin, replaceMin);
+                }
+            });
+        });
+    });
+
+    //当前客户端是否为手机
+    function isMobile() {
+        var ua = navigator.userAgent;
+        var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+            isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+            isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+            isMobile = isIphone || isAndroid;
+        // if (isMobile) {
+        //     return true;
+        // } else {
+        return false;
+        // }
+    }
+
+    //加载手机或电脑网页
+    function loadPage(query, replace, queryMin, replaceMin) {
+        if (isMobile()) {
+            jsCache.load({
+                url: cacheMobileMap.shared,
+                // 加载到数据需要更改的内容
+                dataChange: [{
+                    query: query,
+                    replace: replace
+                }, {
+                    query: queryMin,
+                    replace: replaceMin
+                }]
+            }, {
+                url: cacheMobileMap.antdMJs
+            }, {
+                url: cacheMobileMap.antdMCss
+            }).then(function() {
+                //加载page文件
+                for (mk in cacheMobileMap) {
+                    if (mk.indexOf('.page') > -1) {
+                        jsCache.load({
+                            url: cacheMobileMap[mk]
+                        }).then(function() {
+                            // 页面资源加载完毕
+                            window.jsCacheLoanded = true;
+                            // 执行方法
+                            csGetCache();
+                        })
+                    }
+                }
+            });
+        } else {
+            jsCache.load({
+                url: cacheWebMap.shared,
+                // 加载到数据需要更改的内容
+                dataChange: [{
+                    query: query,
+                    replace: replace
+                }, {
+                    query: queryMin,
+                    replace: replaceMin
+                }]
+            }, {
+                url: cacheWebMap.antdJs
+            }, {
+                url: cacheWebMap.antdCss
+            }).then(function() {
+                //加载page文件
+                for (wk in cacheWebMap) {
+                    if (wk.indexOf('.page') > -1) {
+                        jsCache.load({
+                            url: cacheWebMap[wk]
+                        }).then(function() {
+                            // 页面资源加载完毕
+                            window.jsCacheLoanded = true;
+                            // 执行方法
+                            csGetCache();
+                        });
+                    }
+                }
+            });
+        }
+    }
+    </script>
+</body>
+
+</html>

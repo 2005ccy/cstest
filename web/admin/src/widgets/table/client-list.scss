@@ -1,0 +1,31 @@
+#table-client-list {
+	.button-box {
+		padding-bottom: 10px;
+	}
+
+	.ant-btn {
+		margin-right: 10px;
+	}
+
+	td,
+	td *,
+	th,
+	th * {
+		font-size: 14px;
+	}
+
+	.ant-btn,
+	.ant-btn * {
+		font-size: 13px;
+	}
+
+	th,
+	th * {
+		font-weight: bold;
+	}
+
+	// .ant-table-tbody>tr:last-child>td {
+	// 	border-bottom: none;
+	// }
+
+}

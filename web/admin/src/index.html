@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Antd Example</title>
+
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Bootstrap core CSS   -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet"/>
+</head>
+
+<body>
+</body>
+<script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="//cdn.bootcss.com/react/15.2.1/react.js"></script>
+<script src="//cdn.bootcss.com/react/15.2.1/react-dom.js"></script>
+<script src="//cdn.bootcss.com/react-router/2.7.0/ReactRouter.js"></script>
+<script src="//cdn.bootcss.com/babel-polyfill/6.16.0/polyfill.min.js"></script>
+<script src="//cdn.bootcss.com/lodash.js/4.17.2/lodash.min.js"></script>
+<script type="text/javascript">
+//当前客户端是否为手机
+function isMobile() {
+    // var ua = navigator.userAgent;
+    // var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+    //     isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+    //     isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+    //     // isMobile = isIphone || isAndroid;
+    //     isMobile = location.href.indexOf(':3001') > -1;
+    // if (isMobile) {
+    //     return true;
+    // } else {
+        return false;
+    // }
+}
+
+window.jsCache = {
+    load: function(p) {
+        if (p && p.url) {
+            var type = p.url.indexOf('.css') > -1 ? 'text' : 'script';
+            return $.ajax({
+                url: p.url,
+                dataType: type,
+                cache: true,
+                success: (data) => {
+                    if ('text' === type) {
+                        var style1 = document.createElement('style');
+                        style1.innerHTML = data;
+                        document.head.appendChild(style1);
+                    }
+                }
+            });
+        }
+        var dfd = $.Deferred();
+        dfd.reject();
+        return dfd.promise();
+    }
+};
+
+//添加antd CDN
+var addCdn = function() {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.async = false;
+    var script2 = document.createElement('script');
+    script2.type = 'text/javascript';
+    script2.charset = 'utf-8';
+    script2.async = false;
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    if (isMobile()) {
+        link.href = "./msrc/js/antd-mobile.min.css";
+        script.src = "./msrc/js/antd-mobile.min.js";
+    } else {
+        link.href = "//cdn.bootcss.com/antd/2.0.1/antd.min.css";
+        script.src = "//cdn.bootcss.com/antd/2.0.1/antd.min.js";
+    }
+    head.appendChild(link);
+    head.appendChild(script);
+    script2.src = "/bundle.js";
+    head.appendChild(script2);
+}();
+</script>
+
+</html>

@@ -1,0 +1,4 @@
+{
+   presets: ['/usr/local/lib/node_modules/babel-preset-es2015', '/usr/local/lib/node_modules/babel-preset-stage-0'],
+   ignore: ['node_modules/**', 'app/**','web/**', 'server/baidu/node_modules/**', 'server/mongo/node_modules/**', 'server/root/dist/**', 'server/mongo/dist/**']
+}
